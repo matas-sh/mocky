@@ -8,6 +8,7 @@ import { formatMockedResponse, ErrorResponse } from './utils'
 import { Response } from 'har-format'
 import { harErrorToErrorResonMap } from './constants'
 import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import MockingSessionTracker from 'background/mocking-session-tracker';
 import FetchAPIFacade from '../common/FetchAPIFacade'
 import { generateIdFromRequestObject } from '../../utils'
 
@@ -18,11 +19,13 @@ export default class RequestResolver {
   preferencesStore: PreferencesStore
   mockResponses: MockData['responses'] | undefined
   preferences: Preferences | null
+  mockingSessionTracker: MockingSessionTracker
 
-  constructor () {
+  constructor (mockingSessionTracker: MockingSessionTracker) {
     this.mockStore = new NetworkMockStore()
     this.preferencesStore = new PreferencesStore()
     this.preferences = null;
+    this.mockingSessionTracker = mockingSessionTracker
   }
 
   async loadContext() {
@@ -32,32 +35,44 @@ export default class RequestResolver {
 
   async resolveRequestWithMock (mockResponse: Response | ErrorResponse, requestId: string, debugee: chrome.debugger.Debuggee) {
     if ((mockResponse as ErrorResponse)._error !== null) {
+      console.log('^ increment console log above')
       console.log('[RequestResolver] failing request with error recorded in HAR response: ', mockResponse)
       await FetchAPIFacade.failFetchRequest(debugee, requestId, harErrorToErrorResonMap[(mockResponse as ErrorResponse)._error])
+      this.mockingSessionTracker.incrementMockedRequestCount()
     } else {
+      console.log('^ increment console log above')
       console.log('[RequestResolver] resolving request with response recorded in HAR response: ', mockResponse)
       await FetchAPIFacade.resolveFetchRequest(debugee, formatMockedResponse({ requestId }, mockResponse))
+      this.mockingSessionTracker.incrementMockedRequestCount()
     }
   }
 
   async continueRequest (requestId: string, debugee: chrome.debugger.Debuggee) {
     console.log('[RequestResolver] no matching response found, carrying out the request normally')
     await FetchAPIFacade.continueFetchRequest(debugee, requestId)
+    this.mockingSessionTracker.incrementNonMockedRequestCount()
   }
 
   async handleRequest (debugee: chrome.debugger.Debuggee, method: string, params: any) {
     console.log('[RequestResolver] handleRequest: ', params)
     console.log('[RequestResolver] preferences: ', this.preferences);
+    const responseId = generateIdFromRequestObject(params.request, this.preferences?.urlMatching ?? DEFAULT_URL_MATCHER_TYPE)
+    const matchedResponse = this.mockResponses?.[responseId]
 
-    if (this.preferences?.resourceTypes && !(new Set(this.preferences?.resourceTypes).has(params.resourceType))) {
-      console.log('[RequestResolver] resource type: ', params.resourceType, ' is not selected for mocking')
+    if (!matchedResponse) {
       await this.continueRequest(params.requestId, debugee)
       return
     }
 
-    const responseId = generateIdFromRequestObject(params.request, this.preferences?.urlMatching ?? DEFAULT_URL_MATCHER_TYPE)
+    if (this.preferences?.contentTypes && !(new Set(this.preferences?.contentTypes).has(matchedResponse.content.mimeType))) {
+      console.log('[RequestResolver] content type: ', matchedResponse.content.mimeType, ' is not selected for mocking')
+      await this.continueRequest(params.requestId, debugee)
+      return
+    }
+
+
     console.log('[RequestResolver] id from request object: ', { id: responseId, request: params.request, matchType: this.preferences?.urlMatching ?? DEFAULT_URL_MATCHER_TYPE} );
-    const matchedResponse = this.mockResponses?.[responseId]
+    
 
     if (matchedResponse != null) {
       try {

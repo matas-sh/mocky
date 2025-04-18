@@ -1,8 +1,9 @@
 import { createRoot } from 'react-dom/client'
 
-import { Main } from './panels'
+import { App } from './panels'
 import { LoadedMockProvider } from './hooks/loadedMockContext'
 import { PreferencesProvider } from './hooks/preferencesContext'
+import { RuntimeDataProvider } from './hooks/runtimeContext'
 
 import './index.scss'
 
@@ -12,9 +13,11 @@ document.body.appendChild(container)
 const root = createRoot(container)
 
 root.render(
-  <PreferencesProvider>
-    <LoadedMockProvider>
-      <Main />
-    </LoadedMockProvider>
-  </PreferencesProvider>
+  <RuntimeDataProvider>
+    <PreferencesProvider>
+      <LoadedMockProvider>
+        <App />
+      </LoadedMockProvider>
+    </PreferencesProvider>
+  </RuntimeDataProvider>
 )

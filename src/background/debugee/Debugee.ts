@@ -23,8 +23,8 @@ export default class Debugee {
     return (await this.getAllTargets()).filter(target => target.attached && target.tabId)
   }
 
-  getAttachedTarget () {
-    return this.currentFocusedTabId
+  async getAttachedTarget () {
+    return  (await this.getAllTargets()).filter(target => target.attached && target.tabId)?.[0]?.tabId || null
   }
 
   async getFocusedTarget (tabId?: number): Promise<chrome.debugger.TargetInfo['tabId'] | null> {

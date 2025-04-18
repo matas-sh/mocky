@@ -5,12 +5,12 @@ import React, {
   useEffect
 } from 'react'
 
-import { DEFAULT_RESOURCE_TYPES, DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
 import { PreferencesStore } from '../../store'
 
 export interface Preferences {
   urlMatching: string
-  resourceTypes: string[]
+  contentTypes: string[]
 }
 
 interface PreferencesContextValue {
@@ -43,7 +43,7 @@ const PreferencesProvider: React.FC<Props> = ({ children }) => {
       console.log('[Preferences] setting initial value for preferences context: ', initialPreferencesValue)
       if (initialPreferencesValue === null) {
         preferencesStore.store({
-          resourceTypes: DEFAULT_RESOURCE_TYPES,
+          contentTypes: [],
           urlMatching: DEFAULT_URL_MATCHER_TYPE
         })
       } else {

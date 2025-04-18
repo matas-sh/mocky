@@ -4,6 +4,8 @@ import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Chip from '@mui/material/Chip'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
+import Tooltip from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Har } from 'har-format'
 
 import { useLoadedMock, MockData } from '../hooks/loadedMockContext'
@@ -29,7 +31,17 @@ export default function FileUploadInput ({ mockingInProgress }: { mockingInProgr
 
   return (
     <FormControl>
-      <FormLabel id="mc--url-matching-radio-buttons-group-label">HAR File</FormLabel>
+      <FormLabel id="mc--url-matching-radio-buttons-group-label">
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '4px' }}>
+          <span>HAR File</span>
+          <Tooltip 
+            title="A file containing all exchanged data between browser and the server. Outgoing browser requests will be matched with requests contained in the HAR file and resolved immediately with the paired responses" 
+            placement="top"
+          >
+            <InfoOutlinedIcon fontSize='small' color='info' />
+          </Tooltip>
+        </div>
+      </FormLabel>
       <div style={{ display: 'flex' }}>
         <>
           { (loadedMock == null) && (
@@ -40,6 +52,9 @@ export default function FileUploadInput ({ mockingInProgress }: { mockingInProgr
               endIcon={<UploadFileIcon />}
               loadingPosition="end"
               disabled={mockingInProgress}
+              style={{
+                width: '400px'
+              }}
             >
               Select .har file
               <input type="file" accept=".har" hidden onChange={(evt) => {
@@ -117,7 +132,8 @@ export default function FileUploadInput ({ mockingInProgress }: { mockingInProgr
                 }}
                 disabled={mockingInProgress}
                 style={{
-                  width: '400px'
+                  width: '400px',
+                  height: '40px'
                 }}
               />
           )}

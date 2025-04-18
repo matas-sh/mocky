@@ -5,37 +5,58 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 import { usePreferences } from '../hooks/preferencesContext'
-import { RESOURCE_TYPES, DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import { useLoadedMock } from '../hooks/loadedMockContext'
+import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import { useMemo } from 'react'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
-interface ResourceTypesInputProps {
+interface ContentTypesInputProps {
   mockingInProgress: boolean
 }
 
-const ResourceTypesInput = ({ mockingInProgress }: ResourceTypesInputProps) => {
+const ContentTypesInput = ({ mockingInProgress }: ContentTypesInputProps) => {
   const { preferences, setPreferences } = usePreferences()
+  const { loadedMock } = useLoadedMock()
 
-  console.log('[ResourceTypesInput] preferences: ', preferences)
+  const mimeTypes = useMemo(() => {
+    if (loadedMock) {
+      return new Set(Object.values(loadedMock.responses).map(response => response.content.mimeType));
+    }
+    
+    return null
+  }, [loadedMock])
+
+  console.log('[ContentTypesInput] preferences: ', preferences)
 
   return (
     <FormControl style={{ width: '100%' }}>
       <FormLabel id="mc--url-matching-radio-buttons-group-label">
-        Resource Types
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: '4px' }}>
+          <span>Content Types</span>
+          <Tooltip 
+            title="Filter which requests will be resolved with mocked responses based on the the HTTP Content-Type header present in the reponse." 
+            placement="top"
+          >
+            <InfoOutlinedIcon fontSize='small' color='info' />
+          </Tooltip>
+        </div>
       </FormLabel>
       <Autocomplete
         multiple
         id="mc--resource-types-checkboxes-tags"
-        options={[
-          'All',
-          ...Object.values(RESOURCE_TYPES)
-        ]}
+        options={
+          !loadedMock || !mimeTypes ?  [] : ['All', ...Array.from(mimeTypes)]
+        }
+        inputValue={ !loadedMock ? 'Please upload a har file to proceed...' : ''}
         disableCloseOnSelect
-        value={preferences?.resourceTypes || []}
-        limitTags={2}
+        value={loadedMock && preferences?.contentTypes || []}
+        limitTags={1}
         renderOption={(props, option, { selected }) => (
           <li {...props}>
             <Checkbox
@@ -51,27 +72,27 @@ const ResourceTypesInput = ({ mockingInProgress }: ResourceTypesInputProps) => {
         renderInput={(params) => (
           <TextField {...params} />
         )}
-        disabled={mockingInProgress}
+        disabled={mockingInProgress || !loadedMock}
         onChange={(event, newValue) => {
-          if (newValue[newValue.length - 1] === 'All') {
+          if (newValue[newValue.length - 1] === 'All' && mimeTypes !== null ) {
             preferences ? 
               setPreferences({
                 ...preferences,
-                resourceTypes: Object.values(RESOURCE_TYPES)
+                contentTypes: Array.from(mimeTypes)
               }) :
               setPreferences({
                 urlMatching: DEFAULT_URL_MATCHER_TYPE,
-                resourceTypes: Object.values(RESOURCE_TYPES)
+                contentTypes: Array.from(mimeTypes)
               }) 
           } else {
             preferences ? 
               setPreferences({
                 ...preferences,
-                resourceTypes: newValue
+                contentTypes: newValue
               }) :
               setPreferences({
                 urlMatching: DEFAULT_URL_MATCHER_TYPE,
-                resourceTypes: newValue
+                contentTypes: newValue
               }) 
           }
         }}
@@ -80,4 +101,4 @@ const ResourceTypesInput = ({ mockingInProgress }: ResourceTypesInputProps) => {
   )
 }
 
-export default ResourceTypesInput
+export default ContentTypesInput

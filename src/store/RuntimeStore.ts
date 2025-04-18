@@ -2,8 +2,16 @@ import { STORAGE_KEYS } from '../constants'
 import { StoreInterface, Store } from './Store'
 import { SessionStorage } from '../store/storage/Storage'
 
+export const DEFAULT_RUNTIME_DATA = {
+  mockingInProgress: false,
+  mockedRequestCount: 0,
+  nonMockedRequestCount: 0,
+};
+
 export interface RuntimeData {
-  mockingInProgress: boolean
+  mockingInProgress: boolean,
+  mockedRequestCount: number,
+  nonMockedRequestCount: number
 }
 
 export default class RuntimeStore extends Store implements StoreInterface {

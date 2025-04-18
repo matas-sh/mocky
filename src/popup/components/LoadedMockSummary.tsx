@@ -1,11 +1,11 @@
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined'
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import Link from '@mui/material/Link'
 import { Response } from 'har-format'
 import { useLoadedMock } from '../hooks/loadedMockContext'
 
-const LoadedMockSummary = () => {
+const LoadedMockSummary = ({navigateToMockConfig} : { navigateToMockConfig: () => void}) => {
   const { loadedMock } = useLoadedMock()
 
   if (loadedMock == null) {
@@ -29,9 +29,9 @@ const LoadedMockSummary = () => {
         display: 'flex'
       }}>
         <div>
-          <div> Total requests: {successfulRequests.length + failedRequests.length} </div>
-          <div> Successful requests: {successfulRequests.length} </div>
-          <div> Failed requests: {failedRequests.length} </div>
+          <div> Total requests/responses: {successfulRequests.length + failedRequests.length} </div>
+          <div> Successful requests/responses: {successfulRequests.length} </div>
+          <div> Failed requests/responses: {failedRequests.length} </div>
         </div>
         <div style={{
           justifySelf: 'flex-start',
@@ -39,7 +39,9 @@ const LoadedMockSummary = () => {
           textAlign: 'end',
           height: '100%'
         }}>
-          {/* <ArrowForwardOutlinedIcon/> */}
+          <Link href="#" onClick={navigateToMockConfig}>
+            <TuneRoundedIcon/>
+          </Link>
         </div>
       </div>
     </FormControl>

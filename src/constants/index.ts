@@ -1,29 +1,3 @@
-export const RESOURCE_TYPES = {
-  XHR: 'XHR',
-  FETCH: 'Fetch',
-  SCRIPT: 'Script',
-  DOCUMENT: 'Document',
-  STYLESHEET: 'Stylesheet',
-  IMAGE: 'Image',
-  MEDIA: 'Media',
-  FONT: 'Font',
-  TEXTTRACK: 'TextTrack',
-  PREFETCH: 'Prefetch',
-  EVENTSOURCE: 'EventSource',
-  WEBSOCKET: 'WebSocket',
-  MANIFEST: 'Manifest',
-  SIGNEDEXCHANGE: 'SignedExchange',
-  PING: 'Ping',
-  CPSVIOLATIONREPORT: 'CSPViolationReport',
-  PREFLIGHT: 'Preflight',
-  OTHER: 'Other'
-}
-
-export const DEFAULT_RESOURCE_TYPES = [
-  RESOURCE_TYPES.XHR,
-  RESOURCE_TYPES.FETCH
-]
-
 export const IGNORE_HOSTNAME_URL_MATCHER = {
   label: 'Ignore hostname',
   value: 'IGNORE_HOSTNAME'

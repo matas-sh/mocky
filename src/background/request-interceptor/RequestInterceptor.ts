@@ -50,7 +50,7 @@ export default class RequestInterceptor {
   }
 
   async stopInterceptingOutgoingRequests () {
-    const attachedTargetTabId = this.debugee.getAttachedTarget()
+    const attachedTargetTabId = await this.debugee.getAttachedTarget()
     console.log('[RequestInterceptor] stop request interception target id: ', attachedTargetTabId)
     if (attachedTargetTabId !== null) {
       try {

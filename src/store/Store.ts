@@ -24,6 +24,18 @@ export abstract class Store {
     console.log('[Store] store: ', { value, nameSpace: this.nameSpace })
     await this.storage.save(this.nameSpace, value as JSON)
   }
+
+  async overwrite (newValue: unknown) {
+    const oldValue = await this.retrieve();
+    console.log('[Store] overwrite: ', { newValue, oldValue, nameSpace: this.nameSpace })
+    if (JSON.stringify(oldValue) !== newValue) {
+      await this.storage.save(this.nameSpace, {
+        ...oldValue, 
+        ...newValue as JSON
+      })
+    }
+  }
+
   async retrieve () {
     console.log('[Store] retrieve: ', { nameSpace: this.nameSpace })
     return await this.storage.retrieve(this.nameSpace);
