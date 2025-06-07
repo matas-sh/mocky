@@ -5,7 +5,7 @@ import React, {
   useEffect
 } from 'react'
 import { Request, Response } from 'har-format'
-import { NetworkMockStore } from '../../store'
+import { NetworkMockStore } from '../../common/store'
 
 export type ErrorResponse = Response & {
   _error: string

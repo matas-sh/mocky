@@ -1,16 +1,16 @@
 import {
   NetworkMockStore,
   PreferencesStore
-} from '../../store'
-import { Preferences } from '../../popup/hooks/preferencesContext';
-import { MockData } from '../../popup/hooks/loadedMockContext';
+} from '../../common/store'
+import { Preferences } from '../../ui/hooks/preferencesContext';
+import { MockData } from '../../ui/hooks/loadedMockContext';
 import { formatMockedResponse, ErrorResponse } from './utils'
 import { Response } from 'har-format'
 import { harErrorToErrorResonMap } from './constants'
-import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
-import MockingSessionTracker from 'background/mocking-session-tracker';
+import { DEFAULT_URL_MATCHER_TYPE } from '../../common/constants'
+import MockingSessionTracker from 'service-worker/mocking-session-tracker';
 import FetchAPIFacade from '../common/FetchAPIFacade'
-import { generateIdFromRequestObject } from '../../utils'
+import { generateIdFromRequestObject } from '../../common/utils'
 
 const errorBroadcast = new BroadcastChannel('error-channel')
 

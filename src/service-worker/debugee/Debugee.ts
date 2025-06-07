@@ -1,4 +1,4 @@
-import { RuntimeStore } from '../../store'
+import { RuntimeStore } from '../../common/store'
 
 export default class Debugee {
   runtimeStore: RuntimeStore

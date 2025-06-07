@@ -1,7 +1,7 @@
 import {
   RuntimeStore,
   RuntimeData
-} from '../../store'
+} from '../../common/store'
 
 
 export default class MockingSessionTracker {

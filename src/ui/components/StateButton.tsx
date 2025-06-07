@@ -2,7 +2,7 @@ import Button from '@mui/material/Button'
 
 import { useLoadedMock } from '../hooks/loadedMockContext'
 import { useRuntimeData } from '../hooks/runtimeContext'
-import { DEFAULT_RUNTIME_DATA } from '../../store'
+import { DEFAULT_RUNTIME_DATA } from '../../common/store'
 
 export default function StateButton ({ onClick }: { onClick: () => void }) {
   const { loadedMock } = useLoadedMock()

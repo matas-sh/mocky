@@ -13,7 +13,7 @@ import {
 import {
   RuntimeStore,
   ErrorStore,
-} from '../../store'
+} from '../../common/store'
 import { useLoadedMock } from '../hooks/loadedMockContext'
 import { useRuntimeData } from '../hooks/runtimeContext'
 import TitleSVG from '../../assets/images/title.svg'

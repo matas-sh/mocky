@@ -5,8 +5,8 @@ import React, {
   useEffect
 } from 'react'
 
-import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
-import { PreferencesStore } from '../../store'
+import { DEFAULT_URL_MATCHER_TYPE } from '../../common/constants'
+import { PreferencesStore } from '../../common/store'
 
 export interface Preferences {
   urlMatching: string

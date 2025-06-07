@@ -1,7 +1,7 @@
 import {
   RuntimeStore,
   RuntimeData
-} from '../store'
+} from '../common/store'
 import RequestInterceptor from './request-interceptor'
 import RequestResolver from './request-resolver'
 import MockingSessionTracker from './mocking-session-tracker'

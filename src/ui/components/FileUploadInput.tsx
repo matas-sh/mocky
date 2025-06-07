@@ -9,11 +9,11 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Har } from 'har-format'
 
 import { useLoadedMock, MockData } from '../hooks/loadedMockContext'
-import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import { DEFAULT_URL_MATCHER_TYPE } from '../../common/constants'
 import {
   convertFileContentsIntoHARJson,
   formatEntriesToRequestsAndResponses
-} from '../../utils'
+} from '../../common/utils'
 
 interface fileUploadState {
   error: Error | null

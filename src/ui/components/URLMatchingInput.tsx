@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { usePreferences } from '../hooks/preferencesContext'
-import { URL_MATCHER_TYPES } from '../../constants'
+import { URL_MATCHER_TYPES } from '../../common/constants'
 
 interface URLMatchingInputProps {
   mockingInProgress: boolean

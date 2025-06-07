@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { usePreferences } from '../hooks/preferencesContext'
 import { useLoadedMock } from '../hooks/loadedMockContext'
-import { DEFAULT_URL_MATCHER_TYPE } from '../../constants'
+import { DEFAULT_URL_MATCHER_TYPE } from '../../common/constants'
 import { useMemo } from 'react'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />

@@ -5,7 +5,7 @@ import React, {
   useEffect
 } from 'react'
 
-import { RuntimeStore, RuntimeData, DEFAULT_RUNTIME_DATA } from '../../store'
+import { RuntimeStore, RuntimeData, DEFAULT_RUNTIME_DATA } from '../../common/store'
 
 interface RuntimeContextValue {
   runtimeData: RuntimeData | null

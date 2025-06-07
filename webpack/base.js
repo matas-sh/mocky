@@ -27,16 +27,16 @@ const Source = join(Root, 'src')
 const Dist = join(Root, 'dist')
 
 const Assets = join(Source, 'assets')
-const Background = join(Source, 'background')
-const Popup = join(Source, 'popup')
+const ServiceWorker = join(Source, 'service-worker')
+const UI = join(Source, 'ui')
 const Lib = join(Source, 'lib')
 
 const config = {
   mode: process.env.NODE_ENV,
   target: 'web',
   entry: {
-    background: join(Background, 'index.ts'),
-    popup: join(Popup, 'index.tsx')
+    background: join(ServiceWorker, 'index.ts'),
+    popup: join(UI, 'index.tsx')
   },
   output: {
     path: join(__dirname, '../', 'dist'),
@@ -147,8 +147,8 @@ const config = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.png', '.svg', '.gql'],
     alias: {
       lib: Lib,
-      background: Background,
-      popup: Popup,
+      background: ServiceWorker,
+      popup: UI,
       assets: Assets
     }
   },

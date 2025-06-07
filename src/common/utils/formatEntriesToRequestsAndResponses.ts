@@ -10,7 +10,7 @@ export default (entries: Entry[], urlMatcherType: string) => {
     const { request, response } = entry
     const idObject = generateIdFromRequestObject(request, urlMatcherType)
 
-    /* need to explore handling multiple request and responses with the same id
+    /* TODO: need to explore handling sequential identical request and responses with the same id
     requests[`${idObject}`] = requests[`${idObject}`] ?
       [
         ...requests[`${idObject}`],

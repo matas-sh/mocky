@@ -1,4 +1,4 @@
-import { Preferences } from '../popup/hooks/preferencesContext'
+import { Preferences } from '../../ui/hooks/preferencesContext'
 import { STORAGE_KEYS } from '../constants'
 import { StoreInterface, Store } from './Store'
 import { LocalStorage } from '../store/storage/Storage'

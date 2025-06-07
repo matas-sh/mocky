@@ -1,4 +1,4 @@
-import { MockData } from '../popup/hooks/loadedMockContext'
+import { MockData } from '../../ui/hooks/loadedMockContext'
 import { STORAGE_KEYS } from '../constants'
 import { StoreInterface, Store } from './Store'
 import { LocalStorage } from '../store/storage'
